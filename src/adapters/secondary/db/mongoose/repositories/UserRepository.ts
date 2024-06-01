@@ -3,8 +3,8 @@ import { UserRepositoryPort } from '../../../../../core/ports/UserRepositoryPort
 import { UserModel } from '../models/UserModel'
 
 export class UserRepository implements UserRepositoryPort {
-  async createUser(name: string, email: string): Promise<User> {
-    const user = new UserModel({ name, email })
+  async createUser(name: string, email: string, password: string): Promise<User> {
+    const user = new UserModel({ name, email, password })
     return user.save()
   }
 
