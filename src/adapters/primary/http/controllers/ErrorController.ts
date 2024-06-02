@@ -3,7 +3,6 @@ import { Request, Response } from 'express'
 import { Error as MongooseError } from 'mongoose'
 import AppError from '../../../../utils/AppError'
 
-
 interface MongooseDuplicateKeyError extends MongooseError {
   code: number
   keyPattern?: Record<string, number>
