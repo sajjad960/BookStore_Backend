@@ -1,5 +1,5 @@
+import { UserRepository } from '../../../adapters/secondary/db/sequlizer/repositories/UserRepository';
 import { UserRepositoryPort } from '../../ports/UserRepositoryPort';
-import { UserRepository } from './../../../adapters/secondary/db/mongoose/repositories/UserRepository';
 export class GetAllUsers {
     private userRepository: UserRepositoryPort;
 
@@ -7,7 +7,10 @@ export class GetAllUsers {
         this.userRepository = new UserRepository()
     }
     async execute(){
-        const users = await this.userRepository.getAllUsers();
-        return users;
+        const result = await this.userRepository.getAllUsers();
+        return {
+            users: result?.rows,
+            totalUsers: result?.count
+        };
     }
 }
