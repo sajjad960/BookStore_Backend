@@ -5,6 +5,7 @@ import userRouter from './adapters/primary/http/routes/userRoutes'
 import AppError from './utils/AppError'
 import globalErrorHandler from './adapters/primary/http/controllers/ErrorController'
 import dotenv from 'dotenv'
+import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConnection'
 
 const app = express()
 
@@ -25,8 +26,10 @@ app.use(globalErrorHandler)
 
 const startServer = async () => {
   await connectToMongoDB()
+  await connectToSequelize()
 
   app.listen(config.port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server running on port ${config.port}`)
   })
 }
