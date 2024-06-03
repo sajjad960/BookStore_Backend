@@ -1,10 +1,10 @@
-import { UserRepositoryPort } from '../../ports/UserRepositoryPort'
-import { UserRepository } from '../../../adapters/secondary/db/mongoose/repositories/UserRepository'
+import { UserRepository } from '../../../adapters/secondary/db/sequlizer/repositories/UserRepository'
 import { User } from '../../domain/entities/User'
+import { UserRepositoryPort } from '../../ports/UserRepositoryPort'
 
 interface CreateUserRequest {
   name: string
-  email: string,
+  email: string
   password: string
 }
 
@@ -17,13 +17,12 @@ export class CreateUser {
 
   async execute(request: CreateUserRequest): Promise<User> {
     const { name: newName, email: newEmail, password } = request
-    const user = await this.userRepository.createUser(newName, newEmail, password)
-    const { name, email, role, active } = user
-    return {
-      name,
-      email,
-      role,
-      active
-    }
+    const user = await this.userRepository.createUser(
+      newName,
+      newEmail,
+      password
+    )
+    // const { id, name, email, role, active } = user
+    return user
   }
 }

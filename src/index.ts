@@ -6,6 +6,7 @@ import AppError from './utils/AppError'
 import globalErrorHandler from './adapters/primary/http/controllers/ErrorController'
 import dotenv from 'dotenv'
 import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConnection'
+import syncSequelizeModels from './adapters/secondary/db/sequlizer/synchronizeModels'
 
 const app = express()
 
@@ -27,6 +28,8 @@ app.use(globalErrorHandler)
 const startServer = async () => {
   await connectToMongoDB()
   await connectToSequelize()
+  await syncSequelizeModels()
+
 
   app.listen(config.port, () => {
     // eslint-disable-next-line no-console
