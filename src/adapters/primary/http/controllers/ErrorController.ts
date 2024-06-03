@@ -18,7 +18,6 @@ const sendErrorDev = (err: AppError, res: Response) => {
 }
 
 const handleDuplicateFieldError = (err: MongooseDuplicateKeyError) => {
-    console.log(err);
     if (err.code === 11000 && err.keyPattern) {
     // Extract the duplicate field name from the error message
     const duplicateFields = Object.keys(err.keyPattern).join(', ')

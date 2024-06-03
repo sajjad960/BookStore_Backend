@@ -1,12 +1,14 @@
-import mongoose from 'mongoose';
-import { config } from '../../../../config/config';
+import mongoose from 'mongoose'
+import {configDatabases } from '../../../../config/config'
 
 export const connectToMongoDB = async () => {
   try {
-    await mongoose.connect(config.mongodbUri);
-    console.log('MongoDB connected');
+    await mongoose.connect(configDatabases.MONGODB_URI)
+    // eslint-disable-next-line no-console
+    console.log('MongoDB connected')
   } catch (error) {
-    console.error('Error connecting to MongoDB', error);
-    process.exit(1);
+    // eslint-disable-next-line no-console
+    console.error('Error connecting to MongoDB', error)
+    process.exit(1)
   }
-};
+}
