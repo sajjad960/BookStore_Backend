@@ -1,21 +1,30 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import { User } from '../../../../../core/domain/entities/User';
-import { sequelize } from '../MySqlConnection';
+import { DataTypes, Model, Optional } from 'sequelize'
+import { User } from '../../../../../core/domain/entities/User'
+import { sequelize } from '../MySqlConnection'
 
 // Define the attributes that are optional during User creation
-interface UserCreationAttributes extends Optional<User, 'id' | 'passwordChangedAt' | 'passwordResetToken' | 'passwordResetExpires'|'role' | 'active'> {}
+interface UserCreationAttributes
+  extends Optional<
+    User,
+    | 'id'
+    | 'passwordChangedAt'
+    | 'passwordResetToken'
+    | 'passwordResetExpires'
+    | 'role'
+    | 'active'
+  > {}
 
 // Extend Sequelize's Model class to use User and UserCreationAttributes
 class UserModel extends Model<User, UserCreationAttributes> implements User {
-  public id!: number;
-  public name!: string;
-  public email!: string;
-  public role!: 'user' | 'admin' | 'moderator';
-  public password!: string;
-  public passwordChangedAt?: Date;
-  public passwordResetToken?: string;
-  public passwordResetExpires?: Date;
-  public active!: number;
+  public id!: number
+  public name!: string
+  public email!: string
+  public role!: 'user' | 'admin' | 'moderator'
+  public password!: string
+  public passwordChangedAt?: Date
+  public passwordResetToken?: string
+  public passwordResetExpires?: Date
+  public active!: number
 }
 
 UserModel.init(
@@ -73,7 +82,8 @@ UserModel.init(
     defaultScope: {
       attributes: { exclude: ['password', 'active'] },
     },
+    timestamps: true,
   }
-);
+)
 
-export default UserModel;
+export default UserModel

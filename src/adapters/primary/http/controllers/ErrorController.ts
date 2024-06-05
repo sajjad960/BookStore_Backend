@@ -5,9 +5,9 @@ import AppError from '../../../../utils/AppError'
 import {
   MongooseDuplicateKeyError,
   handleDuplicateFieldErrorMongoose,
-} from './Errors/MongooseErrors'
+} from './ErrorsTypes/MongooseErrors'
 import { Error as SequelizeError, UniqueConstraintError } from 'sequelize'
-import { handleDuplicateFieldErrorSequlize } from './Errors/SequlizeErrors'
+import { handleDuplicateFieldErrorSequlize } from './ErrorsTypes/SequlizeErrors'
 
 const sendErrorDev = (err: AppError, res: Response) => {
   return res.status(err.statusCode ?? 500).json({
@@ -39,11 +39,12 @@ const globalErrorHandler = (
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  console.log(err instanceof SequelizeError)
-  console.log(err instanceof MongooseError)
+  // console.log(err instanceof SequelizeError)
+  // console.log(err instanceof MongooseError)
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err as AppError, res)
   } else if (process.env.NODE_ENV === 'production') {
+    // handle all mongoose errors
     if (err?.name === 'MongoServerError') {
       const mongooseErrorUniqueField = handleDuplicateFieldErrorMongoose(
         err as MongooseDuplicateKeyError
@@ -52,6 +53,7 @@ const globalErrorHandler = (
         return sendErrorProd(mongooseErrorUniqueField, res)
       }
     }
+    // handle all sequelize errors
     if (err instanceof SequelizeError) {
       const sequlizeUniqueValidationError = handleDuplicateFieldErrorSequlize(
         err as UniqueConstraintError

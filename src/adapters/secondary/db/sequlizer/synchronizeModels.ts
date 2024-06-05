@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { sequelize } from './MySqlConnection'
 
 export default async function syncSequelizeModels() {
@@ -11,4 +10,3 @@ export default async function syncSequelizeModels() {
     console.error('Error synchronizing models:', error)
   }
 }
-
