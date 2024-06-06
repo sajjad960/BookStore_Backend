@@ -13,12 +13,16 @@ const bookValidationRules = () => {
       .customSanitizer((authorIds) => {
         return authorIds.map((authorId: number) => Number(authorId))
       }),
-    body('password')
+    body('publishedDate')
       .trim()
       .notEmpty()
-      .withMessage('Password cannot be empty')
-      .isLength({ min: 8 })
-      .withMessage('Password must be at least 8 characters'),
+      .withMessage('Published date cannot be empty')
+      .isISO8601()
+      .withMessage('Please enter a valid date in ISO 8601 format'),
+    body('description')
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage('Description must be at least 2 characters long'),
   ]
 }
 // const productValidationRules = () => {

@@ -7,6 +7,7 @@ import globalErrorHandler from './adapters/primary/http/controllers/ErrorControl
 import dotenv from 'dotenv'
 import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConnection'
 import syncSequelizeModels from './adapters/secondary/db/sequlizer/synchronizeModels'
+import bookRouter from './adapters/primary/http/routes/bookRoutes'
 
 const app = express()
 
@@ -16,6 +17,7 @@ dotenv.config()
 
 const prefix = '/api/v1'
 app.use(`${prefix}/users`, userRouter)
+app.use(`${prefix}/books`, bookRouter)
 
 //If app not found any api route
 app.all('*', (req, res, next) => {
@@ -29,7 +31,6 @@ const startServer = async () => {
   await connectToMongoDB()
   await connectToSequelize()
   await syncSequelizeModels()
-
 
   app.listen(config.port, () => {
     // eslint-disable-next-line no-console

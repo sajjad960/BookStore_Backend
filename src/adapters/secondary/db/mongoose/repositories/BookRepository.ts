@@ -2,8 +2,7 @@ import { Book } from '../../../../../core/domain/entities/Book'
 import {
   BookRepositoryPort,
   PaginateBooks,
-  QueryOptions,
-  QueryParams,
+  QueryParamsAndOptions,
 } from '../../../../../core/ports/BookRepositoryPort'
 import { BookModel } from '../models/BookModel'
 
@@ -22,21 +21,23 @@ export class BookRepository implements BookRepositoryPort {
     return BookModel.findById(id).exec()
   }
 
-  async getAllBooks(
-    query: QueryParams,
-    options: QueryOptions
-  ): Promise<PaginateBooks | null> {
-    // query filter
-    query.status = 1
-    const { limit, skip, sort, select } = options
+  async getAllBooks(query: QueryParamsAndOptions): Promise<PaginateBooks | null> {
+    const { limit, skip, sort, fields, ...filters } = query
+
+    const mongooseFilters: {[key: string]: string | number | number[] | Date | undefined} = {}
+
+    for (const [key, value] of Object.entries(filters)) {
+      if (value !== undefined) {
+        mongooseFilters[key] = value
+      }
+    }
     const [rows, count] = await Promise.all([
-      BookModel.find(query)
-        .limit(limit ?? 10)
-        .skip(skip ?? 0)
-        .sort({ createdAt: -1, ...sort })
-        .select({ __v: 0, ...select })
-        .exec(),
-      BookModel.countDocuments(query).exec(),
+      BookModel.find(mongooseFilters).select(fields).
+      skip(skip).
+      limit(limit).
+      sort(sort).
+      exec(),
+      BookModel.countDocuments().exec(),
     ])
 
     return { rows, count }

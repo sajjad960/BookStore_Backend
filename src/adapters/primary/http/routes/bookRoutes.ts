@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import { UserController } from '../controllers/UserController'
-import { userValidationRules } from '../validators/userValidators'
 import validate from '../middleware/validateRequest'
+import { bookValidationRules } from '../validators/bookValidators'
+import { BookController } from '../controllers/BookController'
 
-const router = Router()
+const bookRouter = Router()
 
-router
+bookRouter
   .route('/')
-  .post(userValidationRules(), validate, UserController.createUser)
-  .get(UserController.getAllUsers)
+  .post(bookValidationRules(), validate, BookController.createBook)
+  .get(BookController.getAllBooks)
 
-export default router
+export default bookRouter

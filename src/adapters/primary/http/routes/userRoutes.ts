@@ -3,11 +3,11 @@ import { UserController } from '../controllers/UserController'
 import { userValidationRules } from '../validators/userValidators'
 import validate from '../middleware/validateRequest'
 
-const router = Router()
+const userRouter = Router()
 
-router
+userRouter
   .route('/')
   .post(userValidationRules(), validate, UserController.createUser)
   .get(UserController.getAllUsers)
 
-export default router
+export default userRouter

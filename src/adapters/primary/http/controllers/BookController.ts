@@ -1,5 +1,8 @@
+import { QueryParamsAndOptions } from '../../../../core/ports/BookRepositoryPort'
+import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
+import APIfeatures from '../../../../utils/APIfeatures'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
 export class BookController {
   static async createBook(req: Request, res: Response, next: NextFunction) {
@@ -19,6 +22,35 @@ export class BookController {
     } catch (error) {
       next(error)
     }
+  }
+  static async getAllBooks(req: Request, res: Response) {
+    const getAllBook = new GetAllBooks()
+    // const { limit, skip, sort, ...filters } = req.query
+    // const parsedSort = JSON.parse(sort as string)
+
+    // const options = {
+    //   limit: parseInt(limit as string, 10) || 10,
+    //   skip: parseInt(skip as string, 10) || 0,
+    //   sort: parsedSort ? { createdAt: -1, ...parsedSort } : { createdAt: -1 },
+    //   select: { __v: 0 },
+    // }
+    const { requestWithQuery }: { requestWithQuery: Request } = new APIfeatures(
+      req
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate()
+
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const query = requestWithQuery?.query as unknown as QueryParamsAndOptions
+
+    const { books, totalBooks } = await getAllBook.execute(query)
+    res.status(200).json({
+      status: 'success',
+      books,
+      totalBooks,
+    })
   }
   //   static async getAllBook(req: Request, res: Response) {
   //     const getAllB = new GetAllUsers()
