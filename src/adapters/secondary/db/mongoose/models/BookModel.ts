@@ -7,6 +7,7 @@ export const BookSchema: Schema = new mongoose.Schema(
     authorIds: { type: [Number], required: true },
     publishedDate: { type: Date, required: true },
     description: { type: String, required: true },
+    price: { type: Number, required: true },
   },
   {
     timestamps: true,

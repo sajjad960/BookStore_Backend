@@ -11,9 +11,10 @@ export class BookRepository implements BookRepositoryPort {
     title: string,
     authorIds: number[],
     publishedDate: Date,
-    description: string
+    description: string,
+    price: number
   ): Promise<Book> {
-    const book = new BookModel({ title, authorIds, publishedDate, description })
+    const book = new BookModel({ title, authorIds, publishedDate, description, price })
     return book.save()
   }
 

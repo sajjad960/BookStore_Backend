@@ -14,6 +14,7 @@ export interface QueryParamsAndOptions {
   publishedDate?: Date
   description?: string
   status?: number
+  price?: number
   fields: string
 }
 
@@ -22,7 +23,8 @@ export interface BookRepositoryPort {
     title: string,
     authorIds: number[],
     publishedDate: Date,
-    description: string
+    description: string,
+    price: number
   ): Promise<Book>
   getBookById(id: string): Promise<Book | null>
   getAllBooks(query: QueryParamsAndOptions): Promise<PaginateBooks | null>

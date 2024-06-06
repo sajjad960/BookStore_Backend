@@ -1,6 +1,6 @@
 import { Request } from 'express'
 
-class APIfeatures {
+class APIfeaturesMongoose {
   requestWithQuery: Request
   constructor(req: Request) {
     this.requestWithQuery = req
@@ -55,4 +55,4 @@ class APIfeatures {
     return this
   }
 }
-export default APIfeatures
+export default APIfeaturesMongoose

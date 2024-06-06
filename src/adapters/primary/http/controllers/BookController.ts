@@ -1,19 +1,20 @@
 import { QueryParamsAndOptions } from '../../../../core/ports/BookRepositoryPort'
 import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
-import APIfeatures from '../../../../utils/APIfeatures'
+import APIfeatures from '../../../../utils/APIfeaturesMongoose'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
 import { Request, Response, NextFunction } from 'express'
 
 export class BookController {
   static async createBook(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, authorIds, publishedDate, description } = req.body
+      const { title, authorIds, publishedDate, description, price } = req.body
       const createBook = new CreateBook()
       const book = await createBook.execute({
         title,
         authorIds,
         publishedDate,
         description,
+        price
       })
       res.status(201).json({
         status: 'success',
@@ -25,15 +26,6 @@ export class BookController {
   }
   static async getAllBooks(req: Request, res: Response) {
     const getAllBook = new GetAllBooks()
-    // const { limit, skip, sort, ...filters } = req.query
-    // const parsedSort = JSON.parse(sort as string)
-
-    // const options = {
-    //   limit: parseInt(limit as string, 10) || 10,
-    //   skip: parseInt(skip as string, 10) || 0,
-    //   sort: parsedSort ? { createdAt: -1, ...parsedSort } : { createdAt: -1 },
-    //   select: { __v: 0 },
-    // }
     const { requestWithQuery }: { requestWithQuery: Request } = new APIfeatures(
       req
     )

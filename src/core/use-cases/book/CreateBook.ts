@@ -6,7 +6,8 @@ interface CreateBookRequest {
   title: string
   authorIds: number[]
   publishedDate: Date
-  description: string
+  description: string,
+  price: number
 }
 
 export class CreateBook {
@@ -17,12 +18,13 @@ export class CreateBook {
   }
 
   async execute(request: CreateBookRequest): Promise<Book> {
-    const { title, authorIds, publishedDate, description } = request
+    const { title, authorIds, publishedDate, description, price } = request
     const book = await this.bookRepository.createBook(
       title,
       authorIds,
       publishedDate,
-      description
+      description,
+      price
     )
     return book
   }
