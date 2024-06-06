@@ -38,7 +38,7 @@ export class BookRepository implements BookRepositoryPort {
       limit(limit).
       sort(sort).
       exec(),
-      BookModel.countDocuments().exec(),
+      BookModel.countDocuments(mongooseFilters).exec(),
     ])
 
     return { rows, count }

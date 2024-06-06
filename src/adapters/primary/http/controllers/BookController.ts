@@ -1,6 +1,4 @@
-import { QueryParamsAndOptions } from '../../../../core/ports/BookRepositoryPort'
 import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
-import APIfeatures from '../../../../utils/APIfeaturesMongoose'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
 import { Request, Response, NextFunction } from 'express'
 
@@ -26,18 +24,8 @@ export class BookController {
   }
   static async getAllBooks(req: Request, res: Response) {
     const getAllBook = new GetAllBooks()
-    const { requestWithQuery }: { requestWithQuery: Request } = new APIfeatures(
-      req
-    )
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate()
 
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const query = requestWithQuery?.query as unknown as QueryParamsAndOptions
-
-    const { books, totalBooks } = await getAllBook.execute(query)
+    const { books, totalBooks } = await getAllBook.execute(req)
     res.status(200).json({
       status: 'success',
       books,

@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, query } from 'express-validator'
 
 const bookValidationRules = () => {
   return [
@@ -11,7 +11,8 @@ const bookValidationRules = () => {
       .isArray()
       .withMessage('Please enter a valid array of author ids')
       .customSanitizer((authorIds) => {
-        return authorIds.map((authorId: number) => Number(authorId))
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return authorIds?.map((authorId: any) => Number(authorId))
       }),
     body('publishedDate')
       .trim()
@@ -25,6 +26,53 @@ const bookValidationRules = () => {
       .withMessage('Description must be at least 2 characters long'),
   ]
 }
+const bookQueryValidationRules = () => {
+  return [
+    query('limit')
+      .optional()
+      .isInt({ gt: 0 })
+      .withMessage('Limit must be a positive integer'),
+    query('skip')
+      .optional()
+      .isInt({ gt: 0 })
+      .withMessage('Skip must be a positive integer'),
+    query('sort')
+      .optional()
+      .isString()
+      .notEmpty()
+      .withMessage('Sort must be a non-empty string'),
+    query('title')
+      .optional()
+      .isString()
+      .withMessage('Title must be a string'),
+    query('authorIds')
+      .optional()
+      .isArray()
+      .withMessage('Author IDs must be an array of numbers'),
+    query('authorIds.*')
+      .optional()
+      .isInt()
+      .withMessage('Each author ID must be a number'),
+    query('publishedDate')
+      .optional()
+      .isISO8601()
+      .toDate()
+      .withMessage('Published Date must be a valid date'),
+    query('description')
+      .optional()
+      .isString()
+      .withMessage('Description must be a string'),
+    query('price')
+      .optional()
+      .isFloat({ gt: 0 })
+      .withMessage('Price must be a positive number'),
+    query('fields')
+      .optional()
+      .isString()
+      .notEmpty()
+      .withMessage('Fields must be a non-empty string')
+  ];
+};
 // const productValidationRules = () => {
 //   return [
 //     body('name')
@@ -36,6 +84,6 @@ const bookValidationRules = () => {
 //   ]
 // }
 
-const Validator = { bookValidationRules }
+const Validator = { bookValidationRules, bookQueryValidationRules }
 
 export = Validator
