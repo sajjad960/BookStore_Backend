@@ -11,13 +11,19 @@ export class GetAllBooks {
     this.bookRepository = new BookRepository()
   }
   async execute(req: Request) {
+    const { authorIds } = req.query;
+    if(authorIds) {
+      const authorIdsArray = String(authorIds).split(',').map(id => parseInt(id.trim()));
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      req.query.authorIds = { $in: authorIdsArray } as unknown as string
+    }
      // set filters
      req.query.status = "1" as string
      req.query.fields = '-status,-__v'
      const { requestWithQuery }: { requestWithQuery: Request } = new APIfeaturesMongoose(
        req
      )
-       .filter(["status"])
+       .filter(["status", "authorIds"])
        .sort()
        .limitFields()
        .paginate()

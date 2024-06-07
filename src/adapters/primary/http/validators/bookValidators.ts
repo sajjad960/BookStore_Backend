@@ -45,14 +45,11 @@ const bookQueryValidationRules = () => {
       .optional()
       .isString()
       .withMessage('Title must be a string'),
-    query('authorIds')
+      query('authorIds')
       .optional()
-      .isArray()
-      .withMessage('Author IDs must be an array of numbers'),
-    query('authorIds.*')
-      .optional()
-      .isInt()
-      .withMessage('Each author ID must be a number'),
+      .isString()
+      .matches(/^(\d+,)*\d+$/)
+      .withMessage('authorIds must be a comma-separated string of numbers'),
     query('publishedDate')
       .optional()
       .isISO8601()
