@@ -32,6 +32,7 @@ export class BookRepository implements BookRepositoryPort {
         mongooseFilters[key] = value
       }
     }
+    console.log(filters);
     const [rows, count] = await Promise.all([
       BookModel.find(mongooseFilters).select(fields).
       skip(skip).

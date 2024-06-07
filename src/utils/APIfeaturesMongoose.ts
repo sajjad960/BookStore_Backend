@@ -5,15 +5,19 @@ class APIfeaturesMongoose {
   constructor(req: Request) {
     this.requestWithQuery = req
   }
-  filter() {
+  filter(withoutRegexFields: string[] = []) {
     const queryObj = { ...this.requestWithQuery.query }
     const excludedFields = ['page', 'sort', 'limit', 'fields']
     excludedFields.forEach((el) => delete queryObj[el])
-    let queryStr = JSON.stringify(queryObj)
-    // Replace the operators in the query string with their mongoose equivalents
-    // Example: 'gte' -> '$gte'
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
-    const parsedQuery = JSON.parse(queryStr)
+    for (const key in queryObj) {
+      if(withoutRegexFields.includes(key)){
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        queryObj[key] = queryObj[key] as unknown as string
+      } else {
+        queryObj[key] = {$regex:queryObj[key],$options:"i"}
+      }
+    }
+    const parsedQuery = JSON.parse(JSON.stringify(queryObj))
     this.requestWithQuery.query = {...this.requestWithQuery.query, ...parsedQuery}
     return this
   }

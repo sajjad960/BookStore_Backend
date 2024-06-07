@@ -17,7 +17,7 @@ export class GetAllBooks {
      const { requestWithQuery }: { requestWithQuery: Request } = new APIfeaturesMongoose(
        req
      )
-       .filter()
+       .filter(["status"])
        .sort()
        .limitFields()
        .paginate()
