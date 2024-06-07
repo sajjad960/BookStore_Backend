@@ -10,21 +10,27 @@ class APIfeaturesMongoose {
     const excludedFields = ['page', 'sort', 'limit', 'fields']
     excludedFields.forEach((el) => delete queryObj[el])
     for (const key in queryObj) {
-      if(withoutRegexFields.includes(key)){
+      if (withoutRegexFields.includes(key)) {
         // eslint-disable-next-line @typescript-eslint/ban-types
         queryObj[key] = queryObj[key] as unknown as string
       } else {
-        queryObj[key] = {$regex:queryObj[key],$options:"i"}
+        queryObj[key] = { $regex: queryObj[key], $options: 'i' }
       }
     }
     const parsedQuery = JSON.parse(JSON.stringify(queryObj))
-    this.requestWithQuery.query = {...this.requestWithQuery.query, ...parsedQuery}
+    this.requestWithQuery.query = {
+      ...this.requestWithQuery.query,
+      ...parsedQuery,
+    }
     return this
   }
 
   sort() {
     if (this.requestWithQuery.query.sort) {
-      this.requestWithQuery.query = { ...this.requestWithQuery.query, sort: this.requestWithQuery.query.sort }
+      this.requestWithQuery.query = {
+        ...this.requestWithQuery.query,
+        sort: this.requestWithQuery.query.sort,
+      }
     } else {
       this.requestWithQuery.query = {
         ...this.requestWithQuery.query,
@@ -49,8 +55,8 @@ class APIfeaturesMongoose {
   limitFields() {
     if (this.requestWithQuery.query.fields) {
       const fields = (this.requestWithQuery.query.fields as string)
-      .split(',')
-      .join(' ')
+        .split(',')
+        .join(' ')
       this.requestWithQuery.query = { ...this.requestWithQuery.query, fields }
     } else {
       this.requestWithQuery.query = {

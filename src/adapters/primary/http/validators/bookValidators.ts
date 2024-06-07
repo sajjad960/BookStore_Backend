@@ -24,6 +24,11 @@ const bookValidationRules = () => {
       .trim()
       .isLength({ min: 2 })
       .withMessage('Description must be at least 2 characters long'),
+    body('price').trim()
+    .notEmpty()
+    .withMessage('Price cannot be empty')
+    .isFloat({gt:0})
+    .withMessage('Please enter a valid price'),
   ]
 }
 const bookQueryValidationRules = () => {
@@ -59,10 +64,14 @@ const bookQueryValidationRules = () => {
       .optional()
       .isString()
       .withMessage('Description must be a string'),
-    query('price')
+    query('minPrice')
       .optional()
-      .isFloat({ gt: 0 })
-      .withMessage('Price must be a positive number'),
+      .isFloat({ min: 0 })
+      .withMessage('minPrice must be a positive number'),
+    query('maxPrice')
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage('maxPrice must be a positive number'),
     query('fields')
       .optional()
       .isString()
