@@ -12,7 +12,7 @@ export class BookController {
         authorIds,
         publishedDate,
         description,
-        price
+        price,
       })
       res.status(201).json({
         status: 'success',

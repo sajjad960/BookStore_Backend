@@ -12,7 +12,7 @@ export class AuthorRepository implements AuthorRepositoryPort {
   }
 
   async getAuthorById(id: string): Promise<Author | null> {
-    return AuthorModel.findByPk(id)
+    return AuthorModel.findByPk(id, { raw: true })
   }
 
   async getAllAuthors(): Promise<PaginatedAuthors | null> {
