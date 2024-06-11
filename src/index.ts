@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConnection'
 import syncSequelizeModels from './adapters/secondary/db/sequlizer/synchronizeModels'
 import bookRouter from './adapters/primary/http/routes/bookRoutes'
+import authorRouter from './adapters/primary/http/routes/authorRoutes'
 
 const app = express()
 
@@ -18,6 +19,7 @@ dotenv.config()
 const prefix = '/api/v1'
 app.use(`${prefix}/users`, userRouter)
 app.use(`${prefix}/books`, bookRouter)
+app.use(`${prefix}/authors`, authorRouter)
 
 //If app not found any api route
 app.all('*', (req, res, next) => {
