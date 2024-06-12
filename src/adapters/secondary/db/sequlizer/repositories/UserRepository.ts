@@ -5,14 +5,20 @@ import {
   UserRepositoryPort,
 } from '../../../../../core/ports/UserRepositoryPort'
 import UserModel from '../models/UserModel'
+import bcrypt from 'bcrypt'
 
 export class UserRepository implements UserRepositoryPort {
+  private async genarateHashedPassword(password: string) {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    return hashedPassword
+  }
   async createUser(
     name: string,
     email: string,
     password: string
   ): Promise<User> {
-    const user = new UserModel({ name, email, password })
+    const hashedPassword = await this.genarateHashedPassword(password)
+    const user = new UserModel({ name, email, password: hashedPassword })
     return user.save()
   }
   async createUserWithRole(
@@ -21,7 +27,8 @@ export class UserRepository implements UserRepositoryPort {
     password: string,
     role: Roles
   ): Promise<User> {
-    const user = new UserModel({ name, email, password, role })
+    const hashedPassword = await this.genarateHashedPassword(password)
+    const user = new UserModel({ name, email, password: hashedPassword, role })
     return user.save()
   }
 
