@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import { NextFunction } from 'express'
 import { Request, Response } from 'express'
 import { Error as MongooseError } from 'mongoose'
@@ -10,7 +11,7 @@ import { Error as SequelizeError, UniqueConstraintError } from 'sequelize'
 import { handleDuplicateFieldErrorSequlize } from './ErrorsTypes/SequlizeErrors'
 
 const sendErrorDev = (err: AppError, res: Response) => {
-  return res.status(err.statusCode ?? 500).json({
+  return res.status(err.statusCode ?? httpStatus.INTERNAL_SERVER_ERROR).json({
     status: err.status ?? 'error',
     error: err,
     message: err.message,
@@ -20,12 +21,12 @@ const sendErrorDev = (err: AppError, res: Response) => {
 
 const sendErrorProd = (err: AppError, res: Response) => {
   if (err.isOperational) {
-    res.status(err.statusCode ?? 500).json({
+    res.status(err.statusCode ?? httpStatus.INTERNAL_SERVER_ERROR).json({
       status: err.status ?? 'error',
       message: err.message,
     })
   } else {
-    res.status(500).json({
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       status: 'error',
       message: 'Something went wrong',
     })

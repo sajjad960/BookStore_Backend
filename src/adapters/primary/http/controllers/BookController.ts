@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
 import { Request, Response, NextFunction } from 'express'
@@ -14,7 +15,7 @@ export class BookController {
         description,
         price,
       })
-      res.status(201).json({
+      res.status(httpStatus.CREATED).json({
         status: 'success',
         book,
       })
@@ -26,7 +27,7 @@ export class BookController {
     const getAllBook = new GetAllBooks()
 
     const { books, totalBooks } = await getAllBook.execute(req)
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       status: 'success',
       books,
       totalBooks,

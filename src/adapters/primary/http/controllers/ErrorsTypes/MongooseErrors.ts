@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import AppError from '../../../../../utils/AppError'
 import { Error as MongooseError } from 'mongoose'
 
@@ -7,7 +8,7 @@ export interface MongooseDuplicateKeyError extends MongooseError {
 }
 export const handleCastError = (err: MongooseError.CastError) => {
   const message = `Invalid ${err.path}: ${err.value}.`
-  return new AppError(message, 400)
+  return new AppError(message, httpStatus.BAD_REQUEST)
 }
 
 export const handleValidationError = (err: MongooseError.ValidationError) => {
@@ -15,7 +16,7 @@ export const handleValidationError = (err: MongooseError.ValidationError) => {
     (el: { message: string }) => el.message
   )
   const message = `Invalid input data. ${errors.join('. ')}`
-  return new AppError(message, 400)
+  return new AppError(message, httpStatus.BAD_REQUEST)
 }
 
 export const handleDuplicateFieldErrorMongoose = (
@@ -26,6 +27,6 @@ export const handleDuplicateFieldErrorMongoose = (
     const duplicateFields = Object.keys(err.keyPattern).join(', ')
     const message = `Duplicate field value: ${duplicateFields}. Please use another value.`
 
-    return new AppError(message, 400)
+    return new AppError(message, httpStatus.BAD_REQUEST)
   }
 }

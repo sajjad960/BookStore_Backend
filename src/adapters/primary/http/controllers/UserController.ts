@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import { NextFunction, Request, Response } from 'express'
 import { CreateUser } from '../../../../core/use-cases/user/CreateUser'
 import { GetAllUsers } from '../../../../core/use-cases/user/GetAllUsers'
@@ -8,7 +9,7 @@ export class UserController {
       const { name, email, password } = req.body
       const createUser = new CreateUser()
       const user = await createUser.execute({ name, email, password })
-      res.status(201).json({
+      res.status(httpStatus.CREATED).json({
         status: 'success',
         user,
       })
@@ -20,7 +21,7 @@ export class UserController {
     const getAllUser = new GetAllUsers()
     const users = await getAllUser.execute()
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       status: 'success',
       users,
     })

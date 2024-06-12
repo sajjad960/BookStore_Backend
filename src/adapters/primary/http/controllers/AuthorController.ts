@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import { CreateAuthor } from './../../../../core/use-cases/author/CreateAuthor'
 import { NextFunction, Request, Response } from 'express'
 import { GetAllAuthors } from '../../../../core/use-cases/author/GetAllAuthors'
@@ -8,7 +9,7 @@ export class AuthorController {
       const { name, email } = req.body
       const createAuthor = new CreateAuthor()
       const author = await createAuthor.execute({ name, email })
-      res.status(201).json({
+      res.status(httpStatus.CREATED).json({
         status: 'success',
         author,
       })
@@ -20,7 +21,7 @@ export class AuthorController {
     const getAllAuthor = new GetAllAuthors()
     const authors = await getAllAuthor.execute()
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       status: 'success',
       authors,
     })

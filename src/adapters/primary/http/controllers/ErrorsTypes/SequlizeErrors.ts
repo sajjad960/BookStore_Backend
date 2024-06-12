@@ -1,3 +1,4 @@
+import httpStatus from 'http-status'
 import AppError from '../../../../../utils/AppError'
 import { UniqueConstraintError } from 'sequelize'
 
@@ -13,6 +14,6 @@ export const handleDuplicateFieldErrorSequlize = (
 
     const message = `This ${duplicateFields} already registered.`
 
-    return new AppError(message, 400)
+    return new AppError(message, httpStatus.BAD_REQUEST)
   }
 }
