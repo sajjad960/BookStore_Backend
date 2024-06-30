@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import {configDatabases } from '../../../../config/config'
+import { databasesConfig } from '../../../../config/config'
 
 export const connectToMongoDB = async () => {
   try {
-    await mongoose.connect(configDatabases.MONGODB_URI)
+    await mongoose.connect(databasesConfig.MONGODB_URI)
     // eslint-disable-next-line no-console
     console.log('MongoDB connected')
   } catch (error) {
