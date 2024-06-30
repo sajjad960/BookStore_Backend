@@ -17,6 +17,10 @@ interface S3Config {
   region: string
   bucketName: string
 }
+interface JwtConfig {
+  secret: string
+  expiresIn: string
+}
 
 export const config: Config = {
   port: process.env.PORT || 3000,
@@ -33,4 +37,8 @@ export const s3Config: S3Config = {
   secretAccessKey: process.env.SECRETACCESSKEY!,
   region: process.env.REGION!,
   bucketName: process.env.BUCKETNAME!,
+}
+export const jwtConfig: JwtConfig = {
+  secret: process.env.JWT_SECRET!,
+  expiresIn: process.env.JWT_EXPIRES_IN!,
 }
