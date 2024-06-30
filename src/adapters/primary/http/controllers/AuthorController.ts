@@ -17,13 +17,17 @@ export class AuthorController {
       next(error)
     }
   }
-  static async getAllAuthors(req: Request, res: Response) {
-    const getAllAuthor = new GetAllAuthors()
-    const authors = await getAllAuthor.execute()
+  static async getAllAuthors(req: Request, res: Response, next: NextFunction) {
+    try {
+      const getAllAuthor = new GetAllAuthors()
+      const authors = await getAllAuthor.execute()
 
-    res.status(httpStatus.OK).json({
-      status: 'success',
-      authors,
-    })
+      res.status(httpStatus.OK).json({
+        status: 'success',
+        authors,
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 }

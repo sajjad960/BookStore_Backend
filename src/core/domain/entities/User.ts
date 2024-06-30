@@ -9,6 +9,8 @@ export class User {
     public passwordChangedAt?: Date,
     public passwordResetToken?: string,
     public passwordResetExpires?: Date,
-    public active: number = 1
+    public active: number = 1,
+    public updatedAt?: Date,
+    public createdAt?: Date
   ) {}
 }

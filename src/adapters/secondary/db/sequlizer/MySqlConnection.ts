@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import { Sequelize } from 'sequelize'
-import { configDatabases } from '../../../../config/config'
+import { databasesConfig } from '../../../../config/config'
 
 const sequelize = new Sequelize(
-  configDatabases.MYSQL_DB,
-  configDatabases.MYSQL_USER,
-  configDatabases.MYSQL_PASSWORD,
+  databasesConfig.MYSQL_DB,
+  databasesConfig.MYSQL_USER,
+  databasesConfig.MYSQL_PASSWORD,
   {
-    host: configDatabases.MYSQL_HOST,
+    host: databasesConfig.MYSQL_HOST,
     dialect: 'mysql',
     logging: false,
   }

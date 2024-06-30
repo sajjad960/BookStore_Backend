@@ -72,7 +72,7 @@ UserModel.init(
       type: DataTypes.DATE,
     },
     active: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER.UNSIGNED,
       defaultValue: 1,
     },
   },
