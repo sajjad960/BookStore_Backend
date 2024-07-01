@@ -21,4 +21,5 @@ export interface UserRepositoryPort {
   ): Promise<User>
   getUserById(id: string): Promise<User | null>
   getAllUsers(): Promise<PaginatedUsers | null>
+  getUserByEmail(email: string): Promise<User | null>
 }

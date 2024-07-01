@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 export class User {
   constructor(
@@ -11,6 +12,7 @@ export class User {
     public passwordResetExpires?: Date,
     public active: number = 1,
     public updatedAt?: Date,
-    public createdAt?: Date
+    public createdAt?: Date,
+    public comparePassword?: (password: string) => Promise<boolean>
   ) {}
 }

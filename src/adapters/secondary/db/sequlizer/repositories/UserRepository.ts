@@ -42,6 +42,9 @@ export class UserRepository implements UserRepositoryPort {
   async getUserById(id: string): Promise<User | null> {
     return UserModel.findByPk(id)
   }
+  async getUserByEmail(email: string): Promise<User | null> {
+    return UserModel.findOne({ where: { email } })
+  }
 
   async getAllUsers(): Promise<PaginatedUsers | null> {
     return UserModel.findAndCountAll()

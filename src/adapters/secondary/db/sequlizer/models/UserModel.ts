@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import { User } from '../../../../../core/domain/entities/User'
 import { sequelize } from '../MySqlConnection'
+import bcrypt from 'bcrypt'
 
 // Define the attributes that are optional during User creation
 interface UserCreationAttributes
@@ -25,6 +26,9 @@ class UserModel extends Model<User, UserCreationAttributes> implements User {
   public passwordResetToken?: string
   public passwordResetExpires?: Date
   public active!: number
+  public async comparePassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password)
+  }
 }
 
 UserModel.init(
