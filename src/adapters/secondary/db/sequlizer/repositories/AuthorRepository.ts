@@ -7,8 +7,9 @@ import AuthorModel from '../models/AuthorModel'
 
 export class AuthorRepository implements AuthorRepositoryPort {
   async createAuthor(name: string, email: string): Promise<Author> {
-    const author = new AuthorModel({ name, email })
-    return author.save()
+    const authorData = new AuthorModel({ name, email })
+    const author = await authorData.save()
+    return author.toJSON()
   }
 
   async getAuthorById(id: string): Promise<Author | null> {

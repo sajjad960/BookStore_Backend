@@ -19,7 +19,6 @@ export class RegisterUser {
     user.passwordResetExpires = undefined
     user.createdAt = undefined
     user.updatedAt = undefined
-    console.log('user', user)
 
     return { user, token }
   }

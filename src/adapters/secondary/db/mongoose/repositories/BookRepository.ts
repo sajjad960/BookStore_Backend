@@ -62,6 +62,9 @@ export class BookRepository implements BookRepositoryPort {
         id: authorIds,
       },
       raw: true,
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
     })
 
     const authorMap = new Map<number, Author>()

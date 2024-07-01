@@ -18,8 +18,9 @@ export class UserRepository implements UserRepositoryPort {
     password: string
   ): Promise<User> {
     const hashedPassword = await this.genarateHashedPassword(password)
-    const user = new UserModel({ name, email, password: hashedPassword })
-    return user.save()
+    const userData = new UserModel({ name, email, password: hashedPassword })
+    const user = await userData.save()
+    return user.toJSON()
   }
   async createUserWithRole(
     name: string,
@@ -28,8 +29,14 @@ export class UserRepository implements UserRepositoryPort {
     role: Roles
   ): Promise<User> {
     const hashedPassword = await this.genarateHashedPassword(password)
-    const user = new UserModel({ name, email, password: hashedPassword, role })
-    return user.save()
+    const userData = new UserModel({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    })
+    const user = await userData.save()
+    return user.toJSON()
   }
 
   async getUserById(id: string): Promise<User | null> {
