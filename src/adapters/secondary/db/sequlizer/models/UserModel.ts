@@ -83,9 +83,6 @@ UserModel.init(
   {
     sequelize,
     tableName: 'users',
-    defaultScope: {
-      attributes: { exclude: ['password', 'active'] },
-    },
     timestamps: true,
   }
 )

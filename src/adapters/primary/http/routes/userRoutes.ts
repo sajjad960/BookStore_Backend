@@ -1,6 +1,9 @@
 import { Router } from 'express'
 import { UserController } from '../controllers/UserController'
-import { userValidationRules } from '../validators/userValidators'
+import {
+  userLoginValidationRules,
+  userValidationRules,
+} from '../validators/userValidators'
 import validate from '../middleware/validateRequest'
 import { AuthController } from '../controllers/AuthController'
 
@@ -10,6 +13,9 @@ const userRouter = Router()
 userRouter
   .route('/register')
   .post(userValidationRules(), validate, AuthController.register)
+userRouter
+  .route('/login')
+  .post(userLoginValidationRules(), validate, AuthController.login)
 // user routes
 userRouter
   .route('/')

@@ -1,5 +1,6 @@
 import { CreateUser } from './CreateUser'
 import createSendToken from './sharedFunctions/createSendToken'
+import genarateUserOnlyView from './sharedFunctions/genarateUserOnlyView'
 
 interface RegisterUserRequest {
   name: string
@@ -14,12 +15,8 @@ export class RegisterUser {
     const user = await createUser.execute(request)
     const token = createSendToken(user)
     // remove some fields from the user object
-    user.password = undefined
-    user.passwordChangedAt = undefined
-    user.passwordResetExpires = undefined
-    user.createdAt = undefined
-    user.updatedAt = undefined
+    const userView = genarateUserOnlyView(user)
 
-    return { user, token }
+    return { user: userView, token }
   }
 }

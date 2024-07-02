@@ -1,35 +1,46 @@
-import { NextFunction } from 'express'
 import AppError from '../../../utils/AppError'
 import { VerifyUser } from './VerifyUser'
 import createSendToken from './sharedFunctions/createSendToken'
+import { User } from '../../domain/entities/User'
+import httpStatus from 'http-status'
+import genarateUserOnlyView from './sharedFunctions/genarateUserOnlyView'
 
 interface LoginRequest {
   email: string
   password: string
 }
-export class Login {
+interface ReturnData {
+  user: User
+  token: string
+}
+export class LoginUser {
   constructor() {}
 
-  async execute(request: LoginRequest, next: NextFunction) {
+  async execute(request: LoginRequest): Promise<ReturnData> {
     const { email, password } = request
     if (!email || !password) {
-      return next(new AppError('Please provide email and password', 400))
+      throw new AppError('Please provide email and password', 400)
     }
     const verifyUser = new VerifyUser()
     const user = await verifyUser.execute(email)
     if (!user) {
-      return next(new AppError('User not found', 404))
+      throw new AppError('User not found', httpStatus.NOT_FOUND)
     }
     // check password
-    if (user.comparePassword) {
+    let token
+    if (user?.comparePassword) {
       const isMatch = await user.comparePassword(password)
       if (!isMatch) {
-        return next(new AppError('Incorrect email or password', 403))
+        throw new AppError('Incorrect password', httpStatus.UNAUTHORIZED)
       }
-      const token = createSendToken(user)
-      return { user, token }
+      token = createSendToken(user)
     } else {
-      return next(new AppError('User is not valid', 403))
+      throw new AppError('User is not valid', httpStatus.UNAUTHORIZED)
     }
+    const stringUser = JSON.stringify(user)
+    const parsedUser = JSON.parse(stringUser)
+
+    const userView = genarateUserOnlyView(parsedUser)
+    return { user: userView, token }
   }
 }

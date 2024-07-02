@@ -4,6 +4,7 @@ import { BookRepositoryPort } from '../../ports/BookRepositoryPort'
 import { AuthorRepositoryPort } from '../../ports/AuthorRepositoryPort'
 import { AuthorRepository } from '../../../adapters/secondary/db/sequlizer/repositories/AuthorRepository'
 import AppError from '../../../utils/AppError'
+import httpStatus from 'http-status'
 
 interface CreateBookRequest {
   title: string
@@ -32,7 +33,10 @@ export class CreateBook {
     )
     const isAuthorsExist = authorsDetails.every((author) => author !== null)
     if (!isAuthorsExist) {
-      throw new AppError('One or more authors does not exist', 400)
+      throw new AppError(
+        'One or more authors does not exist',
+        httpStatus.NOT_FOUND
+      )
     }
     const book = await this.bookRepository.createBook(
       title,

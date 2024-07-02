@@ -22,7 +22,6 @@ export class CreateUser {
       newEmail,
       password
     )
-    // const { id, name, email, role, active } = user
     return user
   }
 }
