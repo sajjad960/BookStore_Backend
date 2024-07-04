@@ -1,6 +1,6 @@
 import { User } from '../../../domain/entities/User'
 
-export default function genarateUserOnlyView(user: User) {
+export default function sanitizeUserForView(user: User) {
   user.password = undefined
   user.passwordChangedAt = undefined
   user.passwordResetExpires = undefined

@@ -1,6 +1,6 @@
 import { CreateUser } from './CreateUser'
-import createSendToken from './sharedFunctions/createSendToken'
-import genarateUserOnlyView from './sharedFunctions/genarateUserOnlyView'
+import createSendToken from './sharedFunctions/createJwtToken'
+import genarateUserOnlyView from './sharedFunctions/sanitizeUserForView'
 
 interface RegisterUserRequest {
   name: string
