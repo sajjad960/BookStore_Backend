@@ -1,12 +1,7 @@
 import { UserRepository } from '../../../adapters/secondary/db/sequlizer/repositories/UserRepository'
+import { CreateUserRequest } from '../../../types/requests/CreateUserRequest'
 import { User } from '../../domain/entities/User'
 import { UserRepositoryPort } from '../../ports/UserRepositoryPort'
-
-interface CreateUserRequest {
-  name: string
-  email: string
-  password: string
-}
 
 export class CreateUser {
   private userRepository: UserRepositoryPort
@@ -16,12 +11,7 @@ export class CreateUser {
   }
 
   async execute(request: CreateUserRequest): Promise<User> {
-    const { name: newName, email: newEmail, password } = request
-    const user = await this.userRepository.createUser(
-      newName,
-      newEmail,
-      password
-    )
+    const user = await this.userRepository.createUser(request)
     return user
   }
 }

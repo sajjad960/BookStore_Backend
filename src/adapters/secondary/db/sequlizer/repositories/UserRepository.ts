@@ -1,9 +1,8 @@
 import { User } from '../../../../../core/domain/entities/User'
-import {
-  PaginatedUsers,
-  Roles,
-  UserRepositoryPort,
-} from '../../../../../core/ports/UserRepositoryPort'
+import { UserRepositoryPort } from '../../../../../core/ports/UserRepositoryPort'
+import { PaginatedUsers } from '../../../../../types/dtos/UserDTO'
+import { CreateUserRequest } from '../../../../../types/requests/CreateUserRequest'
+import { CreateUserWithRoleRequest } from '../../../../../types/requests/CreateUserWithRoleRequests'
 import UserModel from '../models/UserModel'
 import bcrypt from 'bcrypt'
 
@@ -12,22 +11,15 @@ export class UserRepository implements UserRepositoryPort {
     const hashedPassword = await bcrypt.hash(password, 10)
     return hashedPassword
   }
-  async createUser(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<User> {
+  async createUser(request: CreateUserRequest): Promise<User> {
+    const { name, email, password } = request
     const hashedPassword = await this.genarateHashedPassword(password)
     const userData = new UserModel({ name, email, password: hashedPassword })
     const user = await userData.save()
     return user.toJSON()
   }
-  async createUserWithRole(
-    name: string,
-    email: string,
-    password: string,
-    role: Roles
-  ): Promise<User> {
+  async createUserWithRole(request: CreateUserWithRoleRequest): Promise<User> {
+    const { name, email, password, role } = request
     const hashedPassword = await this.genarateHashedPassword(password)
     const userData = new UserModel({
       name,
