@@ -1,14 +1,10 @@
 /* eslint-disable no-unused-vars */
-
+import { PaginatedAuthors } from '../../types/dtos/AuthorDTO'
+import { CreateAuthorRequest } from '../../types/requests/author/CreateAuthorRequest'
 import { Author } from '../domain/entities/Author'
 
-export interface PaginatedAuthors {
-  rows: Author[]
-  count: number
-}
-
 export interface AuthorRepositoryPort {
-  createAuthor(name: string, email: string): Promise<Author>
+  createAuthor(request: CreateAuthorRequest): Promise<Author>
   getAuthorById(id: string): Promise<Author | null>
   getAllAuthors(): Promise<PaginatedAuthors | null>
 }

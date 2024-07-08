@@ -1,10 +1,6 @@
 import { AuthorRepository } from '../../../adapters/secondary/db/sequlizer/repositories/AuthorRepository'
+import { CreateAuthorRequest } from '../../../types/requests/author/CreateAuthorRequest'
 import { Author } from '../../domain/entities/Author'
-
-interface CreateAuthorRequest {
-  name: string
-  email: string
-}
 
 export class CreateAuthor {
   private authorRepository: AuthorRepository
@@ -14,8 +10,7 @@ export class CreateAuthor {
   }
 
   async execute(request: CreateAuthorRequest): Promise<Author> {
-    const { name, email } = request
-    const author = await this.authorRepository.createAuthor(name, email)
+    const author = await this.authorRepository.createAuthor(request)
     return author
   }
 }

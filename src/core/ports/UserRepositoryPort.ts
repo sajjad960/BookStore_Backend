@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { PaginatedUsers } from '../../types/dtos/UserDTO'
-import { CreateUserRequest } from '../../types/requests/CreateUserRequest'
-import { CreateUserWithRoleRequest } from '../../types/requests/CreateUserWithRoleRequests'
+import { CreateUserRequest } from '../../types/requests/user/CreateUserRequest'
+import { CreateUserWithRoleRequest } from '../../types/requests/user/CreateUserWithRoleRequests'
 import { User } from '../domain/entities/User'
 
 export interface UserRepositoryPort {

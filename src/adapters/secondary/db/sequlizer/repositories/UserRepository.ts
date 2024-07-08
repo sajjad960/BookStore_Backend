@@ -1,8 +1,8 @@
 import { User } from '../../../../../core/domain/entities/User'
 import { UserRepositoryPort } from '../../../../../core/ports/UserRepositoryPort'
 import { PaginatedUsers } from '../../../../../types/dtos/UserDTO'
-import { CreateUserRequest } from '../../../../../types/requests/CreateUserRequest'
-import { CreateUserWithRoleRequest } from '../../../../../types/requests/CreateUserWithRoleRequests'
+import { CreateUserRequest } from '../../../../../types/requests/user/CreateUserRequest'
+import { CreateUserWithRoleRequest } from '../../../../../types/requests/user/CreateUserWithRoleRequests'
 import UserModel from '../models/UserModel'
 import bcrypt from 'bcrypt'
 

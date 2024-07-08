@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../adapters/secondary/db/sequlizer/repositories/UserRepository'
-import { CreateUserRequest } from '../../../types/requests/CreateUserRequest'
+import { CreateUserRequest } from '../../../types/requests/user/CreateUserRequest'
 import { User } from '../../domain/entities/User'
 import { UserRepositoryPort } from '../../ports/UserRepositoryPort'
 
