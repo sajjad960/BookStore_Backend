@@ -6,9 +6,9 @@ import AppError from '../../../../utils/AppError'
 import {
   MongooseDuplicateKeyError,
   handleDuplicateFieldErrorMongoose,
-} from './ErrorsTypes/MongooseErrors'
+} from './Errors/MongooseErrors'
 import { Error as SequelizeError, UniqueConstraintError } from 'sequelize'
-import { handleDuplicateFieldErrorSequlize } from './ErrorsTypes/SequlizeErrors'
+import { handleDuplicateFieldErrorSequlize } from './Errors/SequlizeErrors'
 
 const sendErrorDev = (err: AppError, res: Response) => {
   return res.status(err.statusCode ?? httpStatus.INTERNAL_SERVER_ERROR).json({

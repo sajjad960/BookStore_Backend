@@ -12,6 +12,11 @@ interface CreateBookRequest {
   publishedDate: Date
   description: string
   price: number
+  audioLinks?: {
+    url?: string
+    type?: string
+    description?: string
+  }
 }
 
 export class CreateBook {
@@ -25,7 +30,6 @@ export class CreateBook {
 
   async execute(request: CreateBookRequest): Promise<Book> {
     const { title, authorIds, publishedDate, description, price } = request
-
     const authorsDetails = await Promise.all(
       authorIds.map((authorId) =>
         this.authorRepository.getAuthorById(String(authorId))

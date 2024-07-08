@@ -17,6 +17,7 @@ export const BookSchema: Schema = new mongoose.Schema(
         description: { type: String },
       },
     ],
+    posterLink: { type: String },
   },
   {
     timestamps: true,

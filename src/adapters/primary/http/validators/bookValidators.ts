@@ -8,11 +8,13 @@ const bookValidationRules = () => {
       .withMessage('Book title must be at least 2 characters long'),
     body('authorIds')
       .trim()
-      .isArray()
-      .withMessage('Please enter a valid array of author ids')
       .customSanitizer((authorIds) => {
+        const parsedAuthorIds = JSON.parse(authorIds)
+        if (!Array.isArray(parsedAuthorIds)) {
+          throw new Error('Please enter a valid array of author ids')
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return authorIds?.map((authorId: any) => Number(authorId))
+        return parsedAuthorIds?.map((authorId: any) => Number(authorId))
       }),
     body('publishedDate')
       .trim()
@@ -24,11 +26,12 @@ const bookValidationRules = () => {
       .trim()
       .isLength({ min: 2 })
       .withMessage('Description must be at least 2 characters long'),
-    body('price').trim()
-    .notEmpty()
-    .withMessage('Price cannot be empty')
-    .isFloat({gt:0})
-    .withMessage('Please enter a valid price'),
+    body('price')
+      .trim()
+      .notEmpty()
+      .withMessage('Price cannot be empty')
+      .isFloat({ gt: 0 })
+      .withMessage('Please enter a valid price'),
   ]
 }
 const bookQueryValidationRules = () => {
@@ -46,11 +49,8 @@ const bookQueryValidationRules = () => {
       .isString()
       .notEmpty()
       .withMessage('Sort must be a non-empty string'),
-    query('title')
-      .optional()
-      .isString()
-      .withMessage('Title must be a string'),
-      query('authorIds')
+    query('title').optional().isString().withMessage('Title must be a string'),
+    query('authorIds')
       .optional()
       .isString()
       .matches(/^(\d+,)*\d+$/)
@@ -76,9 +76,9 @@ const bookQueryValidationRules = () => {
       .optional()
       .isString()
       .notEmpty()
-      .withMessage('Fields must be a non-empty string')
-  ];
-};
+      .withMessage('Fields must be a non-empty string'),
+  ]
+}
 // const productValidationRules = () => {
 //   return [
 //     body('name')

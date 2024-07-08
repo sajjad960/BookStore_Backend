@@ -10,7 +10,6 @@ const s3 = new S3Client({
     secretAccessKey: s3Config.secretAccessKey,
   },
 })
-
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -24,11 +23,19 @@ const upload = multer({
       if (file.fieldname === 'audio') {
         cb(
           null,
-          'public/books/audio' + Date.now().toString() + '-' + file.originalname
+          'books/audio' + Date.now().toString() + '-' + file.originalname
+        )
+      } else if (file.fieldname === 'poster') {
+        cb(
+          null,
+          'books/posters' + Date.now().toString() + '-' + file.originalname
         )
       }
     },
   }),
-}).fields([{ name: 'audio', maxCount: 1 }])
+}).fields([
+  { name: 'audio', maxCount: 1 },
+  { name: 'poster', maxCount: 1 },
+])
 
 export = upload
