@@ -2,29 +2,12 @@ import httpStatus from 'http-status'
 import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
 import { Request, Response, NextFunction } from 'express'
-// src/types/IFile.ts
-
-// Define the IFile type
-export type IFile = {
-  fieldname: string
-  originalname: string
-  encoding: string
-  mimetype: string
-  location: string
-  buffer: Buffer
-  size: number
-}
-
-declare module 'express' {
-  interface Request {
-    files: IFile[]
-  }
-}
+import { CreateBookDTO } from '../../../../types/dtos/BookDTO'
 
 export class BookController {
   static async createBook(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, authorIds, publishedDate, description, price } = req.body
+      const createBookDTO: CreateBookDTO = req.body
       // console.log(req.files.poster, audio)
       // const audioFileInfo = (req.files as { audio?: IFile[] })['audio']?.[0]
       // const posterFileInfo = (req.files as { poster?: IFile[] })['poster']?.[0]
@@ -32,17 +15,7 @@ export class BookController {
       // console.log(audioFileInfo, posterFileInfo)
 
       const createBook = new CreateBook()
-      const book = await createBook.execute({
-        title,
-        authorIds,
-        publishedDate,
-        description,
-        price,
-        // audioLinks: {
-        //   url: audioFileInfo?.location,
-        //   type: audioFileInfo?.mimetype,
-        // },
-      })
+      const book = await createBook.execute(createBookDTO)
       res.status(httpStatus.CREATED).json({
         status: 'success',
         book,

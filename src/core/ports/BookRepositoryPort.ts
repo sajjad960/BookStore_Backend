@@ -1,31 +1,13 @@
 /* eslint-disable no-unused-vars */
+import {
+  BookQueryParamsAndOptions,
+  PaginateBooks,
+} from '../../types/dtos/BookDTO'
+import { CreateBookRequest } from '../../types/requests/book/CreateBookRequest'
 import { Book } from '../domain/entities/Book'
 
-export interface PaginateBooks {
-  rows: Book[]
-  count: number
-}
-export interface QueryParamsAndOptions {
-  limit: number
-  skip: number
-  sort: string,
-  title?: string
-  authorIds?: number[]
-  publishedDate?: Date
-  description?: string
-  status?: number
-  price?: number
-  fields: string
-}
-
 export interface BookRepositoryPort {
-  createBook(
-    title: string,
-    authorIds: number[],
-    publishedDate: Date,
-    description: string,
-    price: number
-  ): Promise<Book>
+  createBook(request: CreateBookRequest): Promise<Book>
   getBookById(id: string): Promise<Book | null>
-  getAllBooks(query: QueryParamsAndOptions): Promise<PaginateBooks | null>
+  getAllBooks(query: BookQueryParamsAndOptions): Promise<PaginateBooks | null>
 }

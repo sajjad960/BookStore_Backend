@@ -1,21 +1,17 @@
 import { Author } from '../../../../../core/domain/entities/Author'
 import { Book } from '../../../../../core/domain/entities/Book'
+import { BookRepositoryPort } from '../../../../../core/ports/BookRepositoryPort'
 import {
-  BookRepositoryPort,
+  BookQueryParamsAndOptions,
   PaginateBooks,
-  QueryParamsAndOptions,
-} from '../../../../../core/ports/BookRepositoryPort'
+} from '../../../../../types/dtos/BookDTO'
+import { CreateBookRequest } from '../../../../../types/requests/book/CreateBookRequest'
 import AuthorModel from '../../sequlizer/models/AuthorModel'
 import { BookModel } from '../models/BookModel'
 
 export class BookRepository implements BookRepositoryPort {
-  async createBook(
-    title: string,
-    authorIds: number[],
-    publishedDate: Date,
-    description: string,
-    price: number
-  ): Promise<Book> {
+  async createBook(request: CreateBookRequest): Promise<Book> {
+    const { title, authorIds, publishedDate, description, price } = request
     const book = new BookModel({
       title,
       authorIds,
@@ -31,7 +27,7 @@ export class BookRepository implements BookRepositoryPort {
   }
 
   async getAllBooks(
-    query: QueryParamsAndOptions
+    query: BookQueryParamsAndOptions
   ): Promise<PaginateBooks | null> {
     const { limit, skip, sort, fields, ...filters } = query
 

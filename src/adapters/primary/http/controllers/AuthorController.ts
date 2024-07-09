@@ -21,11 +21,11 @@ export class AuthorController {
   static async getAllAuthors(req: Request, res: Response, next: NextFunction) {
     try {
       const getAllAuthor = new GetAllAuthors()
-      const authors = await getAllAuthor.execute()
+      const paginatedAuthors = await getAllAuthor.execute()
 
       res.status(httpStatus.OK).json({
         status: 'success',
-        authors,
+        authors: paginatedAuthors,
       })
     } catch (error) {
       next(error)

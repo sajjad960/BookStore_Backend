@@ -5,19 +5,7 @@ import { AuthorRepositoryPort } from '../../ports/AuthorRepositoryPort'
 import { AuthorRepository } from '../../../adapters/secondary/db/sequlizer/repositories/AuthorRepository'
 import AppError from '../../../utils/AppError'
 import httpStatus from 'http-status'
-
-interface CreateBookRequest {
-  title: string
-  authorIds: number[]
-  publishedDate: Date
-  description: string
-  price: number
-  audioLinks?: {
-    url?: string
-    type?: string
-    description?: string
-  }
-}
+import { CreateBookRequest } from '../../../types/requests/book/CreateBookRequest'
 
 export class CreateBook {
   private bookRepository: BookRepositoryPort
@@ -29,7 +17,7 @@ export class CreateBook {
   }
 
   async execute(request: CreateBookRequest): Promise<Book> {
-    const { title, authorIds, publishedDate, description, price } = request
+    const { authorIds } = request
     const authorsDetails = await Promise.all(
       authorIds.map((authorId) =>
         this.authorRepository.getAuthorById(String(authorId))
@@ -42,13 +30,7 @@ export class CreateBook {
         httpStatus.NOT_FOUND
       )
     }
-    const book = await this.bookRepository.createBook(
-      title,
-      authorIds,
-      publishedDate,
-      description,
-      price
-    )
+    const book = await this.bookRepository.createBook(request)
     return book
   }
 }
