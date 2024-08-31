@@ -1,0 +1,67 @@
+version: '3.9'
+
+networks:
+  backend-network:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: bookstore
+      MYSQL_USER: sajjad
+      MYSQL_PASSWORD: sajjad960
+    ports:
+      - '3309:3306'
+    networks:
+      - backend-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'mysqladmin ping -h mysql -u sajjad --password=password']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    networks:
+      - backend-network
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    ports:
+      - '8000:8000'
+    networks:
+      - backend-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: sajjad
+      MYSQL_PASSWORD: sajjad960
+      MYSQL_DB: bookstore
+      MONGODB_URI: mongodb://mongodb:27017/bookstore
+      NODE_ENV: development
+      PORT: 8000
+      JWT_SECRET: jwtsecret
+      JWT_EXPIRES_IN: 10d
+
+volumes:
+  mongo-data:
+  mysql-data:
