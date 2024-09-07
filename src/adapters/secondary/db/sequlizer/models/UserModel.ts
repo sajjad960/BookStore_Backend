@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import { User } from '../../../../../core/domain/entities/User'
 import { sequelize } from '../MySqlConnection'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 // Define the attributes that are optional during User creation
 interface UserCreationAttributes

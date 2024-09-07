@@ -4,7 +4,7 @@ import { PaginatedUsers } from '../../../../../types/dtos/UserDTO'
 import { CreateUserRequest } from '../../../../../types/requests/user/CreateUserRequest'
 import { CreateUserWithRoleRequest } from '../../../../../types/requests/user/CreateUserWithRoleRequests'
 import UserModel from '../models/UserModel'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 export class UserRepository implements UserRepositoryPort {
   private async genarateHashedPassword(password: string) {
