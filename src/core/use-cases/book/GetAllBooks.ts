@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { BookRepository } from '../../../adapters/secondary/db/mongoose/repositories/BookRepository'
+import { BookQueryParamsAndOptions } from '../../../types/dtos/BookDTO'
 import APIfeaturesMongoose from '../../../utils/APIfeaturesMongoose'
 import {
   BookRepositoryPort,
-  QueryParamsAndOptions,
 } from '../../ports/BookRepositoryPort'
 import { Request } from 'express'
 
@@ -52,7 +52,8 @@ export class GetAllBooks {
         .limitFields()
         .paginate()
 
-    const query = requestWithQuery?.query as unknown as QueryParamsAndOptions
+    const query =
+      requestWithQuery?.query as unknown as BookQueryParamsAndOptions
     const result = await this.bookRepository.getAllBooks(query)
     return {
       books: result?.rows,
