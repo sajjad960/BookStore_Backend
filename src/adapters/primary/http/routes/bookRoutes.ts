@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { RequestHandler, Router } from 'express'
 import validate from '../middleware/validateRequest'
 import {
   bookQueryValidationRules,
@@ -11,7 +11,16 @@ const bookRouter = Router()
 
 bookRouter
   .route('/')
-  .post(upload, bookValidationRules(), validate, BookController.createBook)
-  .get(bookQueryValidationRules(), validate, BookController.getAllBooks)
+  .post(
+    upload,
+    bookValidationRules(),
+    validate as unknown as RequestHandler,
+    BookController.createBook as unknown as RequestHandler
+  )
+  .get(
+    bookQueryValidationRules(),
+    validate as unknown as RequestHandler,
+    BookController.getAllBooks as unknown as RequestHandler
+  )
 
 export default bookRouter

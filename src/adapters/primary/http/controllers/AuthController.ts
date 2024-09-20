@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import { RegisterUser } from '../../../../core/use-cases/user/RegisterUser'
 import httpStatus from 'http-status'
-import { LoginUser } from '../../../../core/use-cases/user/LoginUser'
+import { RegisterUser } from '../../../../core/use-cases/user/auth/RegisterUser'
+import { LoginUser } from '../../../../core/use-cases/user/auth/LoginUser'
 
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunction) {

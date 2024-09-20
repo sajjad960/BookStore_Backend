@@ -3,14 +3,19 @@ import { CreateAuthor } from './../../../../core/use-cases/author/CreateAuthor'
 import { NextFunction, Request, Response } from 'express'
 import { GetAllAuthors } from '../../../../core/use-cases/author/GetAllAuthors'
 import { createAuthorDTO } from '../../../../types/dtos/AuthorDTO'
+import { Author } from '../../../../core/domain/entities/Author'
 
 export class AuthorController {
-  static async createAuthor(req: Request, res: Response, next: NextFunction) {
+  static async createAuthor(
+    req: Request,
+    res: Response<{ status: string; author: Author }>,
+    next: NextFunction
+  ) {
     try {
       const createAuthorDTO: createAuthorDTO = req.body
       const createAuthor = new CreateAuthor()
       const author = await createAuthor.execute(createAuthorDTO)
-      res.status(httpStatus.CREATED).json({
+      return res.status(httpStatus.CREATED).json({
         status: 'success',
         author,
       })

@@ -1,3 +1,5 @@
+import { User } from '../../core/domain/entities/User'
+
 export type IFile = {
   fieldname: string
   originalname: string
@@ -11,5 +13,11 @@ export type IFile = {
 declare module 'express' {
   interface Request {
     files: IFile[]
+  }
+}
+export interface MyUserRequest extends Request {
+  user?: User
+  headers: Headers & {
+    authorization?: string
   }
 }

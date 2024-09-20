@@ -1,9 +1,9 @@
-import AppError from '../../../utils/AppError'
-import { VerifyUser } from './VerifyUser'
-import createSendToken from './sharedFunctions/createJwtToken'
-import { User } from '../../domain/entities/User'
+import AppError from '../../../../utils/AppError'
+import { VerifyUser } from '../VerifyUser'
+import createSendToken from '../sharedFunctions/createJwtToken'
+import { User } from '../../../domain/entities/User'
 import httpStatus from 'http-status'
-import genarateUserOnlyView from './sharedFunctions/sanitizeUserForView'
+import genarateUserOnlyView from '../sharedFunctions/sanitizeUserForView'
 
 interface LoginRequest {
   email: string
