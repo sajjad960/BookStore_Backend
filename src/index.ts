@@ -9,6 +9,7 @@ import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConne
 import syncSequelizeModels from './adapters/secondary/db/sequlizer/synchronizeModels'
 import bookRouter from './adapters/primary/http/routes/bookRoutes'
 import authorRouter from './adapters/primary/http/routes/authorRoutes'
+import createAdminUser from './adapters/secondary/db/sequlizer/scripts/createAdminUser'
 
 const app = express()
 
@@ -33,6 +34,7 @@ const startServer = async () => {
   await connectToMongoDB()
   await connectToSequelize()
   await syncSequelizeModels()
+  await createAdminUser()
 
   app.listen(config.port, () => {
     // eslint-disable-next-line no-console

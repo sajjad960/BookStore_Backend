@@ -1,51 +1,25 @@
 /* eslint-disable no-console */
-import { Command } from 'commander'
-import dotenv from 'dotenv'
-import { connectToSequelize, sequelize } from '../MySqlConnection'
-import syncSequelizeModels from '../synchronizeModels'
+import { AdminConfig } from '../../../../../config/config'
 import { CreateUserWithRole } from '../../../../../core/use-cases/user/CreateUserWithRole'
-import { Roles } from '../../../../../core/ports/UserRepositoryPort'
-
-dotenv.config()
-
-const program = new Command()
-
-program
-  .option('-n, --name <name>', 'Admin name')
-  .option('-e, --email <email>', 'Admin email')
-  .option('-p, --password <password>', 'Admin password')
-
-program.parse(process.argv)
-
-const options = program.opts()
-
-if (!options.name || !options.email || !options.password) {
-  console.error('Please provide name, email, and password for the admin user.')
-  process.exit(1)
-}
+import { VerifyUser } from '../../../../../core/use-cases/user/VerifyUser'
+import { UserRole } from '../models/UserModel'
 
 async function createAdminUser() {
   try {
-    await connectToSequelize()
-    await syncSequelizeModels()
-
-    const { name, email, password } = options
     const createRoleUser = new CreateUserWithRole()
-
+    const verifyUser = new VerifyUser()
+    const admin = await verifyUser.execute(AdminConfig.email)
+    if (admin) return
     const user = await createRoleUser.execute({
-      name,
-      email,
-      password,
-      role: Roles.ADMIN,
+      name: AdminConfig.name,
+      email: AdminConfig.email,
+      password: AdminConfig.password,
+      role: UserRole.ADMIN,
     })
     console.log(`Admin user created with email: ${user.email}`)
   } catch (error) {
-    console.error('Error creating admin user:', error)
-  } finally {
-    sequelize.close()
+    console.error('Error: Admin not created', error)
   }
 }
 
-createAdminUser()
-// command for creating admin user
-// npx ts-node src/adapters/secondary/db/sequlizer/scripts/createAdminUser.ts -n 'Admin Name' -e 'admin@localhost' -p 'admin123'
+export default createAdminUser

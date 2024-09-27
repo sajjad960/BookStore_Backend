@@ -42,3 +42,8 @@ export const jwtConfig: JwtConfig = {
   secret: process.env.JWT_SECRET!,
   expiresIn: process.env.JWT_EXPIRES_IN!,
 }
+export const AdminConfig = {
+  name: process.env.ADMIN_NAME!,
+  email: process.env.ADMIN_EMAIL!,
+  password: process.env.ADMIN_PASSWORD!,
+}
