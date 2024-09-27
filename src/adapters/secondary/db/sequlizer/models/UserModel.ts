@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { DataTypes, Model, Optional } from 'sequelize'
 import { User } from '../../../../../core/domain/entities/User'
 import { sequelize } from '../MySqlConnection'
@@ -14,6 +15,12 @@ interface UserCreationAttributes
     | 'role'
     | 'active'
   > {}
+
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+  MODERATOR = 'moderator',
+}
 
 // Extend Sequelize's Model class to use User and UserCreationAttributes
 class UserModel extends Model<User, UserCreationAttributes> implements User {
@@ -53,7 +60,7 @@ UserModel.init(
       },
     },
     role: {
-      type: DataTypes.ENUM('user', 'admin', 'moderator'),
+      type: DataTypes.ENUM(...Object.values(UserRole)),
       defaultValue: 'user',
     },
     password: {

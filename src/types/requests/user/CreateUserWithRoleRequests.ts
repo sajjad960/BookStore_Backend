@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
-export enum Roles {
-  USER = 'user',
-  ADMIN = 'admin',
-  MODERATOR = 'moderator',
-}
+import { UserRole } from '../../../adapters/secondary/db/sequlizer/models/UserModel'
+
 export type CreateUserWithRoleRequest = {
   name: string
   email: string
   password: string
-  role: Roles
+  role: UserRole
 }

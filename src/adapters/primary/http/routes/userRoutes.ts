@@ -6,6 +6,8 @@ import {
 } from '../validators/userValidators'
 import validate from '../middleware/validateRequest'
 import { AuthController } from '../controllers/AuthController'
+import { protect, restrictTo } from '../middleware/auth'
+import { UserRole } from '../../../secondary/db/sequlizer/models/UserModel'
 
 const userRouter = Router()
 
@@ -25,6 +27,10 @@ userRouter
     AuthController.login as unknown as RequestHandler
   )
 // user routes
+userRouter.use(
+  protect as unknown as RequestHandler,
+  restrictTo(UserRole.ADMIN) as unknown as RequestHandler
+)
 userRouter
   .route('/')
   .post(
