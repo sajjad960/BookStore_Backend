@@ -11,7 +11,7 @@ import bookRouter from './adapters/primary/http/routes/bookRoutes'
 import authorRouter from './adapters/primary/http/routes/authorRoutes'
 import createAdminUser from './adapters/secondary/db/sequlizer/scripts/createAdminUser'
 
-const app = express()
+export const app = express()
 
 app.use(express.json())
 
