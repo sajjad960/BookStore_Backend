@@ -6,6 +6,12 @@ export interface CreateBookDTO {
   publishedDate: Date
   description: string
   price: number
+  audioLinks?: {
+    url: string
+    type: string
+    description?: string
+  }
+  posterLink?: string
 }
 export interface PaginateBooks {
   rows: Book[]

@@ -9,4 +9,5 @@ export interface CreateBookRequest {
     type?: string
     description?: string
   }
+  posterLink?: string
 }

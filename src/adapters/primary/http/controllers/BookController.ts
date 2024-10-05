@@ -3,16 +3,25 @@ import { GetAllBooks } from '../../../../core/use-cases/book/GetAllBooks'
 import { CreateBook } from './../../../../core/use-cases/book/CreateBook'
 import { Request, Response, NextFunction } from 'express'
 import { CreateBookDTO } from '../../../../types/dtos/BookDTO'
+import { IFile } from '../../../../types/express/express'
 
 export class BookController {
   static async createBook(req: Request, res: Response, next: NextFunction) {
     try {
       const createBookDTO: CreateBookDTO = req.body
       // console.log(req.files.poster, audio)
-      // const audioFileInfo = (req.files as { audio?: IFile[] })['audio']?.[0]
-      // const posterFileInfo = (req.files as { poster?: IFile[] })['poster']?.[0]
+      const audioFileInfo = (req.files as { audio?: IFile[] })['audio']?.[0]
+      const posterFileInfo = (req.files as { poster?: IFile[] })['poster']?.[0]
 
-      // console.log(audioFileInfo, posterFileInfo)
+      if (audioFileInfo) {
+        createBookDTO.audioLinks = {
+          url: audioFileInfo?.location || '',
+          type: audioFileInfo?.mimetype || '',
+        }
+      }
+      if (posterFileInfo) {
+        createBookDTO.posterLink = posterFileInfo?.location || ''
+      }
 
       const createBook = new CreateBook()
       const book = await createBook.execute(createBookDTO)

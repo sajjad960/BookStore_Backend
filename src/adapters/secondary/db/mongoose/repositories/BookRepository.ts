@@ -11,13 +11,23 @@ import { BookModel } from '../models/BookModel'
 
 export class BookRepository implements BookRepositoryPort {
   async createBook(request: CreateBookRequest): Promise<Book> {
-    const { title, authorIds, publishedDate, description, price } = request
+    const {
+      title,
+      authorIds,
+      publishedDate,
+      description,
+      price,
+      audioLinks,
+      posterLink,
+    } = request
     const book = new BookModel({
       title,
       authorIds,
       publishedDate,
       description,
       price,
+      audioLinks,
+      posterLink,
     })
     return book.save()
   }
