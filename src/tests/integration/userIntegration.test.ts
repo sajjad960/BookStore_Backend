@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { app } from '../..'
+import { app } from '../../app'
 
 describe('User Integration Tests', () => {
   it('should create a user', async () => {
