@@ -8,11 +8,16 @@ export const handleDuplicateFieldErrorSequlize = (
   if (err instanceof UniqueConstraintError) {
     // Extract the duplicate field name from the error message
     const fields = err.fields
-    const duplicateFields = Object.entries(fields)
-      .map(([fieldName]) => fieldName.split('_')[0])
-      .join(',')
+    let message: string
+    if (Array.isArray(fields)) {
+      message = `This ${fields.join(', ')} already registered.`
+    } else {
+      const duplicateFields = Object.entries(fields)
+        .map(([fieldName]) => fieldName.split('_')[0])
+        .join(',')
 
-    const message = `This ${duplicateFields} already registered.`
+      message = `This ${duplicateFields} already registered.`
+    }
 
     return new AppError(message, httpStatus.BAD_REQUEST)
   }

@@ -3,7 +3,7 @@ import { connectToMongoDB } from './adapters/secondary/db/mongoose/MongoDBConnec
 import { connectToSequelize } from './adapters/secondary/db/sequlizer/MySqlConnection'
 import createAdminUser from './adapters/secondary/db/sequlizer/scripts/createAdminUser'
 import syncSequelizeModels from './adapters/secondary/db/sequlizer/synchronizeModels'
-import { config } from './config/config'
+import { config, isTest } from './config/config'
 
 const startServer = async () => {
   await connectToMongoDB()
@@ -16,5 +16,8 @@ const startServer = async () => {
     console.log(`Server running on port ${config.port}`)
   })
 }
-
-startServer()
+// if running test then don't run the server here
+if (!isTest) {
+  startServer()
+}
+export { startServer, app }

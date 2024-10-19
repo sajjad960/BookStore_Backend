@@ -41,7 +41,7 @@ class UserModel extends Model<User, UserCreationAttributes> implements User {
 UserModel.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
@@ -83,7 +83,7 @@ UserModel.init(
       type: DataTypes.DATE,
     },
     active: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       defaultValue: 1,
     },
   },

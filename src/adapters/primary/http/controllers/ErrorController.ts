@@ -44,7 +44,10 @@ const globalErrorHandler = (
   // console.log(err instanceof MongooseError)
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err as AppError, res)
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (
+    process.env.NODE_ENV === 'production' ||
+    process.env.NODE_ENV === 'test'
+  ) {
     // handle all mongoose errors
     if (err?.name === 'MongoServerError') {
       const mongooseErrorUniqueField = handleDuplicateFieldErrorMongoose(

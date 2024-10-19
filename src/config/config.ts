@@ -22,8 +22,10 @@ interface JwtConfig {
   expiresIn: string
 }
 
+export const isTest = process.env.NODE_ENV === 'test'
+
 export const config: Config = {
-  port: process.env.PORT || 3000,
+  port: isTest ? 3000 : process.env.PORT ?? 3000,
 }
 export const databasesConfig: DatabasesConfig = {
   MONGODB_URI: process.env.MONGODB_URI!,
