@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { app } from '../../../server'
 
-describe('Auth Integration Tests', () => {
+export const authTests = () => {
   it('should register a new user', async () => {
     const response = await request(app).post('/api/v1/users/register').send({
       name: 'test',
@@ -41,4 +41,4 @@ describe('Auth Integration Tests', () => {
     expect(response.body).toHaveProperty('user')
     expect(response.body).toHaveProperty('token')
   })
-})
+}
