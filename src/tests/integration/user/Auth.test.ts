@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { app } from '../../server'
+import { app } from '../../../server'
 
 describe('Auth Integration Tests', () => {
   it('should register a new user', async () => {
@@ -8,7 +8,6 @@ describe('Auth Integration Tests', () => {
       email: 'test455@example.com',
       password: '12345678',
     })
-    console.log('response', response.body)
     expect(response.status).toBe(201)
     expect(response.body).toHaveProperty('status')
     expect(response.body.status).toBe('success')

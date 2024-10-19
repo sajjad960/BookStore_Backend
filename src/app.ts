@@ -23,7 +23,6 @@ app.all('*', (req, res, next) => {
 })
 
 //handling global error
-// eslint-disable-next-line @typescript-eslint/ban-types
 app.use(globalErrorHandler as unknown as express.ErrorRequestHandler)
 
 export default app
