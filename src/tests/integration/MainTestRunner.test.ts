@@ -1,6 +1,6 @@
 // userAndAuthorIntegration.test.ts
-import { authorsTests } from './author/Author.test'
-import { authTests } from './user/Auth.test'
+import { authorsTests } from './author/AuthorTests'
+import { authTests } from './user/AuthTests'
 
 describe('BookStore Integration Tests', () => {
   authTests()
